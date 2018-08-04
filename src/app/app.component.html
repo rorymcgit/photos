@@ -2,6 +2,7 @@
   <h1>
     Welcome to {{ title }}!
   </h1>
+  <ngb-pagination [collectionSize]="70" [(page)]="page" aria-label="Default pagination"></ngb-pagination>
   <div *ngFor="let photo of photos">
     <!-- {{photo | json}} -->
     <!-- <img [src]="photo.thumbnailUrl"/> -->
