@@ -3,6 +3,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { PhotoHttpService } from './services/photo-http/photo-http.service';
 import { PhotoHttpServiceMock } from './services/photo-http/photo-http.mock.service';
+import { FormsModule } from '@angular/forms';
 
 describe('AppComponent', () => {
   let photoHttpService: PhotoHttpServiceMock;
@@ -14,6 +15,7 @@ describe('AppComponent', () => {
         AppComponent
       ],
       imports: [
+        FormsModule,
         NgbModule.forRoot()
       ],
       providers: [
@@ -58,6 +60,16 @@ describe('AppComponent', () => {
       const firstPhotoInView = component.paginatedPhotos[0];
       expect(component.paginatedPhotos.length).toEqual(2);
       expect(firstPhotoInView.id).toEqual(5);
+    }));
+  });
+  describe('resetSearch()', () => {
+    it('sets search results to null', async(() => {
+      const fixture = TestBed.createComponent(AppComponent);
+      fixture.detectChanges();
+      const component = fixture.componentInstance;
+      component.resetSearch();
+      expect(component.searchResults).toBeNull();
+      expect(component.searchSubmitted).toBeNull();
     }));
   });
 });

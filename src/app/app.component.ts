@@ -13,6 +13,9 @@ export class AppComponent implements OnInit, OnDestroy {
   photoSubscription: Subscription;
   photos: Photo[];
   paginatedPhotos: Photo[];
+  searchResults: Photo[];
+  searchSubmitted: boolean;
+  resultsFound: boolean;
   pageSizes: number[];
   pageSize: number;
   page: number;
@@ -39,10 +42,17 @@ export class AppComponent implements OnInit, OnDestroy {
     this.paginatedPhotos = this.slicePhotos(begin, end);
   }
 
-  onSubmit(form: NgForm) {
-    if (form.valid) {
-      console.log(form.value);
-    }
+  resetSearch() {
+    this.searchResults = null;
+    this.searchSubmitted = null;
+  }
+
+  search(form: NgForm) {
+    this.searchSubmitted = true;
+
+    this.searchResults = this.photos.filter( el => {
+      return el.title.includes(form.value.searchValue);
+    });
   }
 
   ngOnInit() {

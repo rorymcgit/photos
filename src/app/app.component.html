@@ -3,7 +3,7 @@
 
   <div class="pagination-wrapper">
     <div ngbDropdown>
-      <button class="btn btn-outline-primary" ngbDropdownToggle>Items per page</button>
+      <button ngbDropdownToggle class="btn btn-outline-primary" [disabled]="searchResults">Items per page</button>
       <div ngbDropdownMenu>
           <button class="dropdown-item" *ngFor="let size of pageSizes" (click)="setPageSize(size)">
             {{size}}
@@ -17,19 +17,38 @@
       (pageChange)="goToPage($event)"
       [maxSize]="5"
       [rotate]="true"
-      [boundaryLinks]="true">
+      [boundaryLinks]="true"
+      [disabled]="searchResults">
     </ngb-pagination>
   </div>
 
-  <form #form="ngForm" (ngSubmit)="onSubmit(form)" class="search-bar">
-    <input [(ngModel)]="searchValue" name="searchValue" class="form-control" type="text" placeholder="Type the title and hit [enter]"/>
+  <form #form="ngForm" (ngSubmit)="search(form)" class="search-bar">
+    <input
+      [(ngModel)]="searchValue"
+      name="searchValue"
+      class="form-control"
+      type="text"
+      placeholder="Search by title..."/>
     <button type="submit">Search</button>
+    <button (click)="resetSearch()" type="reset">Reset Search</button>
   </form>
 
+  <div *ngIf="searchResults">
+    <div *ngFor="let photo of searchResults">
+      <!-- <img [src]="photo.thumbnailUrl"/> -->
+      {{photo.title}}
+    </div>
+  </div>
 
-  <div *ngFor="let photo of paginatedPhotos">
-    <img [src]="photo.thumbnailUrl"/>
-    {{photo.title}}
-    <!-- {{photo.id}} -->
+  <div *ngIf="searchSubmitted && searchResults.length === 0">
+    No results, reset the search to resume browsing photos
+  </div>
+
+  <div *ngIf="!searchResults">
+    <div *ngFor="let photo of paginatedPhotos">
+      <!-- <img [src]="photo.thumbnailUrl"/> -->
+      {{photo.title}}
+      <!-- {{photo.id}} -->
+    </div>
   </div>
 </div>
