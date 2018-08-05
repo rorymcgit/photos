@@ -1,4 +1,4 @@
-<div>
+<div class="photos">
   <h1 class="display-1 title">Photos!</h1>
 
   <div class="pagination-wrapper">
@@ -24,31 +24,36 @@
 
   <form #form="ngForm" (ngSubmit)="search(form)" class="search-bar">
     <input
-      [(ngModel)]="searchValue"
-      name="searchValue"
+      [(ngModel)]="searchTerm"
+      name="searchTerm"
       class="form-control"
       type="text"
       placeholder="Search by title..."/>
-    <button type="submit">Search</button>
-    <button (click)="resetSearch()" type="reset">Reset Search</button>
+    <div>
+      <button class="btn btn-primary" [disabled]="!searchTerm" type="submit">Search</button>
+      <button class="btn btn-secondary" [disabled]="!searchSubmitted" (click)="resetSearch()" type="reset">Reset Search</button>
+    </div>
   </form>
 
   <div *ngIf="searchResults">
-    <div *ngFor="let photo of searchResults">
-      <!-- <img [src]="photo.thumbnailUrl"/> -->
+    <div class="item" *ngFor="let photo of searchResults">
+      <a [href]="photo.url" target="_blank">
+        <img [src]="photo.thumbnailUrl"/>
+      </a>
       {{photo.title}}
     </div>
   </div>
 
-  <div *ngIf="searchSubmitted && searchResults.length === 0">
-    No results, reset the search to resume browsing photos
+  <div *ngIf="emptyResultSet">
+    No results found, reset the search to resume browsing photos
   </div>
 
   <div *ngIf="!searchResults">
-    <div *ngFor="let photo of paginatedPhotos">
-      <!-- <img [src]="photo.thumbnailUrl"/> -->
+    <div class="item" *ngFor="let photo of paginatedPhotos">
+      <a [href]="photo.url" target="_blank">
+        <img [src]="photo.thumbnailUrl"/>
+      </a>
       {{photo.title}}
-      <!-- {{photo.id}} -->
     </div>
   </div>
 </div>

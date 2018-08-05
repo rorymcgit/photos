@@ -7,15 +7,16 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
   photoSubscription: Subscription;
   photos: Photo[];
   paginatedPhotos: Photo[];
-  searchResults: Photo[];
+  searchTerm: string;
   searchSubmitted: boolean;
-  resultsFound: boolean;
+  searchResults: Photo[];
+  emptyResultSet: boolean;
   pageSizes: number[];
   pageSize: number;
   page: number;
@@ -45,14 +46,20 @@ export class AppComponent implements OnInit, OnDestroy {
   resetSearch() {
     this.searchResults = null;
     this.searchSubmitted = null;
+    this.emptyResultSet = false;
+    this.searchTerm = null;
   }
 
   search(form: NgForm) {
-    this.searchSubmitted = true;
+    this.searchResults = [];
+    if (form.value.searchTerm) {
+      this.searchSubmitted = true;
+      this.searchResults = this.photos.filter( el => {
+        return el.title.includes(form.value.searchTerm);
+      });
+    }
 
-    this.searchResults = this.photos.filter( el => {
-      return el.title.includes(form.value.searchValue);
-    });
+    this.emptyResultSet = this.searchResults.length === 0;
   }
 
   ngOnInit() {

@@ -2,26 +2,34 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.1.
 
+## Setup
+`git clone` this repository
+
+`/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"` to install Homebrew (package manager)
+
+`brew install node@8` to install Node LTS version
+
+`npm install -g @angular/cli` to install Angular CLI globally
+
+
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+`ng serve --open` to start up local dev server. Will open in default browser
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+`ng test` to run unit tests
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Approach
 
-## Further help
+I started off by reading up on bootstrap and looking at the different components I could use. This gave me an idea of how I would design the front end.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Issues I faced:
+- Pagination:  
+    Spent a lot of time on pagination and trying to understand how the parameters in the `ngb-pagination` element work. I found the ng-bootstrap documentation to be a bit too concise. Perhaps I wasted time on this, but wrote a few bugs in while trying to understand how to use it.
+
+Future features/changes:
+- Make responsive - I didn't apply the any media queries to the css so currently the UI only caters for tablets and desktop browsers.
+- I did not paginate the search results as I ran out of time. This would be my next step.
+- The validation on the search box isn't comprehensive. An empty string enables the search button but doesn't submit the search or provide feedback to the user.
