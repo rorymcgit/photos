@@ -1,33 +1,48 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from '../../node_modules/rxjs';
-import { map } from 'rxjs/operators';
-
-interface Photo {
-  albumId: number;
-  id: number;
-  title: string;
-  url: string;
-  thumbnailUrl: string;
-}
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Photo } from './app.types';
+import { PhotoHttpService } from './services/photo-http/photo-http.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+  photoSubscription: Subscription;
   photos: Photo[];
-  title = 'Photos';
+  paginatedPhotos: Photo[];
+  pageSizes: number[];
+  pageSize: number;
+  page: number;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private photoHttpService: PhotoHttpService) {
+    this.page = 1;
+    this.pageSizes = [10, 20, 50, 100];
+    this.pageSize = this.pageSizes[0];
+  }
+
+  private slicePhotos(pageStart: number, pageEnd: number): Photo[] {
+    return this.photos.slice(pageStart, pageEnd);
+  }
+
+  setPageSize(size: number) {
+    this.pageSize = size;
+    this.goToPage();
+  }
+
+  goToPage(pg: number = this.page) {
+    this.page = pg;
+    const begin = this.page * this.pageSize - this.pageSize;
+    const end = begin + this.pageSize;
+    this.paginatedPhotos = this.slicePhotos(begin, end);
   }
 
   ngOnInit() {
-    this.getPhotos().subscribe(
+    this.photoSubscription = this.photoHttpService.getPhotos().subscribe(
       data => {
-        console.log('success: ', data);
         this.photos = data;
+        this.paginatedPhotos = this.slicePhotos(0, this.pageSize);
       },
       error => {
         console.log('error: ', error);
@@ -35,10 +50,8 @@ export class AppComponent implements OnInit {
     );
   }
 
-  getPhotos(): Observable<Photo[]> {
-    return this.httpClient.get<Photo[]>('http://jsonplaceholder.typicode.com/photos')
-      .pipe(map(response => response)
-    );
+  ngOnDestroy() {
+    this.photoSubscription.unsubscribe();
   }
 
 }

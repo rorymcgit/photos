@@ -1,0 +1,10 @@
+.title {
+    padding: 12px;
+    margin-bottom: 24px;
+}
+
+.pagination-wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 12px;
+}

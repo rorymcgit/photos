@@ -1,11 +1,32 @@
 <div>
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <ngb-pagination [collectionSize]="70" [(page)]="page" aria-label="Default pagination"></ngb-pagination>
-  <div *ngFor="let photo of photos">
-    <!-- {{photo | json}} -->
-    <!-- <img [src]="photo.thumbnailUrl"/> -->
+  <h1 class="display-1 title">Photos!</h1>
+
+  <div class="pagination-wrapper">
+
+    <div ngbDropdown>
+      <button class="btn btn-outline-primary" ngbDropdownToggle>Items per page</button>
+      <div ngbDropdownMenu>
+          <button class="dropdown-item" *ngFor="let size of pageSizes" (click)="setPageSize(size)">
+            {{size}}
+          </button>
+      </div>
+    </div>
+
+    <ngb-pagination *ngIf="photos && pageSize"
+      [collectionSize]="photos.length"
+      [(page)]="page"
+      [pageSize]="pageSize"
+      (pageChange)="goToPage($event)"
+      [maxSize]="5"
+      [rotate]="true"
+      [boundaryLinks]="true">
+    </ngb-pagination>
+
+  </div>
+
+  <div *ngFor="let photo of paginatedPhotos">
+    <img [src]="photo.thumbnailUrl"/>
     {{photo.title}}
+    <!-- {{photo.id}} -->
   </div>
 </div>
