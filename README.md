@@ -1,7 +1,5 @@
 # Photos
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.1.
-
 ## Setup
 `git clone` this repository
 
@@ -26,8 +24,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 I started off by reading up on bootstrap and looking at the different components I could use. This gave me an idea of how I would design the front end.
 
 Issues I faced:
-- Pagination:  
-    Spent a lot of time on pagination and trying to understand how the parameters in the `ngb-pagination` element work. I found the ng-bootstrap documentation to be a bit too concise. Perhaps I wasted time on this, but wrote a few bugs in while trying to understand how to use it.
+- Pagination - I spent a lot of time on pagination and trying to understand how the parameters in the `ngb-pagination` element work. I found the ng-bootstrap documentation to be a bit too concise. Perhaps I wasted time on this, but I wrote a few bugs in while trying to understand how to use it so I think it was just a learning curve.
+- Had some trouble working out how to mock the `PhotoHttpService`. I found a pattern online where someone extended their service and overwrote the method(s) they wanted mocked. I was originally mocking the httpClient.
 
 Future features/changes:
 - Make responsive - I didn't apply the any media queries to the css so currently the UI only caters for tablets and desktop browsers.
