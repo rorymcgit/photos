@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Photo } from './app.types';
 import { PhotoHttpService } from './services/photo-http/photo-http.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -36,6 +37,12 @@ export class AppComponent implements OnInit, OnDestroy {
     const begin = this.page * this.pageSize - this.pageSize;
     const end = begin + this.pageSize;
     this.paginatedPhotos = this.slicePhotos(begin, end);
+  }
+
+  onSubmit(form: NgForm) {
+    if (form.valid) {
+      console.log(form.value);
+    }
   }
 
   ngOnInit() {

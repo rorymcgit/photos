@@ -2,7 +2,6 @@
   <h1 class="display-1 title">Photos!</h1>
 
   <div class="pagination-wrapper">
-
     <div ngbDropdown>
       <button class="btn btn-outline-primary" ngbDropdownToggle>Items per page</button>
       <div ngbDropdownMenu>
@@ -11,7 +10,6 @@
           </button>
       </div>
     </div>
-
     <ngb-pagination *ngIf="photos && pageSize"
       [collectionSize]="photos.length"
       [(page)]="page"
@@ -21,8 +19,13 @@
       [rotate]="true"
       [boundaryLinks]="true">
     </ngb-pagination>
-
   </div>
+
+  <form #form="ngForm" (ngSubmit)="onSubmit(form)" class="search-bar">
+    <input [(ngModel)]="searchValue" name="searchValue" class="form-control" type="text" placeholder="Type the title and hit [enter]"/>
+    <button type="submit">Search</button>
+  </form>
+
 
   <div *ngFor="let photo of paginatedPhotos">
     <img [src]="photo.thumbnailUrl"/>
